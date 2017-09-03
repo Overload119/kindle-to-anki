@@ -1,0 +1,69 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    addressable (2.5.2)
+      public_suffix (>= 2.0.2, < 4.0)
+    awesome_print (1.7.0)
+    byebug (9.0.6)
+    capybara (2.15.1)
+      addressable
+      mini_mime (>= 0.1.3)
+      nokogiri (>= 1.3.3)
+      rack (>= 1.0.0)
+      rack-test (>= 0.5.4)
+      xpath (~> 2.0)
+    childprocess (0.7.1)
+      ffi (~> 1.0, >= 1.0.11)
+    equatable (0.5.0)
+    escape_utils (1.2.1)
+    ffi (1.9.18)
+    hitimes (1.2.6)
+    mini_mime (0.1.4)
+    mini_portile2 (2.2.0)
+    necromancer (0.4.0)
+    nokogiri (1.8.0)
+      mini_portile2 (~> 2.2.0)
+    pastel (0.7.1)
+      equatable (~> 0.5.0)
+      tty-color (~> 0.4.0)
+    public_suffix (3.0.0)
+    rack (2.0.3)
+    rack-test (0.7.0)
+      rack (>= 1.0, < 3)
+    rubyzip (1.2.1)
+    selenium-webdriver (3.5.1)
+      childprocess (~> 0.5)
+      rubyzip (~> 1.0)
+    smarter_csv (1.1.4)
+    timers (4.1.2)
+      hitimes
+    tty-color (0.4.2)
+    tty-cursor (0.5.0)
+    tty-prompt (0.13.2)
+      necromancer (~> 0.4.0)
+      pastel (~> 0.7.0)
+      timers (~> 4.1.2)
+      tty-cursor (~> 0.5.0)
+      tty-reader (~> 0.1.0)
+    tty-reader (0.1.0)
+      wisper (~> 2.0.0)
+    watir (6.8.0)
+      selenium-webdriver (~> 3.4, >= 3.4.1)
+    wisper (2.0.0)
+    xpath (2.1.0)
+      nokogiri (~> 1.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  awesome_print
+  byebug
+  capybara
+  escape_utils
+  smarter_csv
+  tty-prompt
+  watir
+
+BUNDLED WITH
+   1.14.6
