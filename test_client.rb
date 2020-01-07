@@ -1,0 +1,1 @@
+client = AnkiWebClient.new

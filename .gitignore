@@ -1,0 +1,5 @@
+config.json
+.cookies
+.byebug_history
+output/
+node_modules/

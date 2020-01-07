@@ -1,15 +1,13 @@
 # Kindle to Anki
 
-- A command line tool to convert Kindle vocabulary and notes into Anki cards.
-- Parses exported Kindle notebooks
-- Simple API to read/add to AnkiWeb
+Purpose: I want a way to convert Exported Kindle Notes into Anki cards so I can review it on the Anki mobile app.
+
+- Parse exported Book Notes (currently only HTML is supported).
+- Connect to AnkiWeb to create Cloze type cards by automatically remove words in the card.
 
 ## Usage
 
-```bash
-bundle exec ruby run.rb \
-  --username XXXXX \
-  --password XXXXX \
-  --deck "The Influential Mind" \
-  --input '/Users/amirsharif/Dropbox/Book Notes/The Influential Mind.pdf'
-```
+- `git clone`
+- `bundle`
+- Rename `config.sample.json -> config.json` and fill it out with your details.
+- `bundle exec ./run.rb --input-file './debt.highlights.example.html' --deck Test`
