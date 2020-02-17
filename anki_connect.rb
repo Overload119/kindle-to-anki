@@ -1,7 +1,8 @@
+require 'http'
+
 # Handles communication with the AnkiConnect addon.
 class AnkiConnect
   VERSION = 6
-  attr_writer :deck_name
 
   # @param [Array<Hash>] the cards (each card has a front key and back key)
   def create_deck(deck_name)
@@ -17,20 +18,20 @@ class AnkiConnect
 
   # Only supports Cloze cards for now.
   # Create several cards using the multi-API.
-  def create_cards(cards)
+  def create_cards(cards, deckname)
     resp = HTTP.post('http://localhost:8765', json: {
       action: 'addNotes',
       version: 6,
       params: {
-        notes: cards.map { |card| new_cloze_note(card) },
+        notes: cards.map { |card| new_cloze_note(card, deckname) },
       },
     })
     catch_error(resp)
   end
 
-  def new_cloze_note(card)
+  def new_cloze_note(card, deckname)
     {
-      deckName: @deck_name,
+      deckName: deckname,
       modelName: 'Cloze',
       tags: [],
       fields: {

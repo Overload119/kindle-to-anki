@@ -1,17 +1,20 @@
-# Create a valid import file to be added to Anki app.
-# https://apps.ankiweb.net/docs/manual.html#importing-text-files
+# Logic for writing a Deck to Anki.
+
+require_relative('helpers')
+require_relative('kindle_note_reader')
+require_relative('anki_connect')
+
 class AnkiWriter
   PATH = './output'
   DELIMITER = "\t".freeze
   NEWLINE = "\n".freeze
+  attr_writer :input_file
+  attr_reader :cards
 
-  def initialize(deck_name)
+  def initialize(deck_name, opts = {})
     @cards = []
     @deck_name = deck_name
-  end
-
-  def add_cards(cards)
-    @cards = cards
+    @opts = opts
   end
 
   def write(path = "#{PATH}/#{@deck_name}.txt")
@@ -29,5 +32,25 @@ class AnkiWriter
       file.write(NEWLINE)
     end
     file.close
+  end
+
+  def write_to_anki
+    connect = AnkiConnect.new
+    connect.create_deck(@deck_name)
+    connect.create_cards(@cards, @deck_name)
+  end
+
+  def generate_cards(card_type)
+    fail 'No input file.' if @input_file.nil?
+    case card_type
+    when :cloze
+      reader = KindleNoteReader.new(@input_file)
+      @cards = []
+      reader.notes.each do |note|
+        @cards << {
+          'front' => cloze_text(note),
+        }
+      end
+    end
   end
 end

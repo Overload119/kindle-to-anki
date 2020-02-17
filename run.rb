@@ -8,11 +8,8 @@ require 'pry'
 require 'smarter_csv'
 require 'tty-prompt'
 
-require_relative('anki_web_client')
 require_relative('anki_writer')
 require_relative('helpers')
-require_relative('kindle_note_reader')
-require_relative('anki_connect')
 
 options = {}
 
@@ -22,32 +19,39 @@ OptionParser.new do |parser|
     '--directory PATH',
     'Input a folder - all HTML files will turn into decks'
   ) { |v| options[:dir] = File.expand_path(v) }
+  parser.on(
+    '-i',
+    '--input-file PATH',
+    'Input a file. The file will be turned into a Deck'
+  ) { |v| options[:'input-file'] = File.expand_path(v) }
 end.parse!
 
 prompt = TTY::Prompt.new
 
-OPTION_1 = 'Create Cloze cards from highlights in a folder'
-action = prompt.select('What do you want to do?', [
+OPTIONS = [
   'Create Cloze cards from highlights in a folder',
-])
+  'Create Cloze cards from highlights in a file'
+]
+action = prompt.select('What do you want to do?', OPTIONS)
 
-if action == OPTION_1
+case action
+when OPTIONS[0]
   Dir[options[:dir]].each do |path|
-    puts "Processing #{path}..."
-    reader = KindleNoteReader.new(path)
-    cards = []
-    reader.notes.each do |note|
-      cards << {
-        'front' => cloze_text(note),
-      }
-    end
     deck_name, _ = File.basename(path).split('.')
-    next unless prompt.yes?("This will create #{cards.size} cards in '#{deck_name}'. Continue?")
-    connect = AnkiConnect.new
-    connect.create_deck(deck_name)
-    connect.deck_name = deck_name
-    connect.create_cards(cards)
+    writer = AnkiWriter.new(deck_name)
+    writer.input_file = path
+    writer.generate_cards(:cloze)
+    next unless prompt.yes?("This will create #{writer.cards.size} cards in '#{deck_name}'. Continue?")
+    writer.write_to_anki
   end
+when OPTIONS[1]
+  path = prompt.ask('Which file?', default: options[:'input-file'])
+  deck_name, _ = File.basename(path).split('.')
+  writer = AnkiWriter.new(deck_name)
+  writer.input_file = path
+  writer.generate_cards(:cloze)
+  exit() unless prompt.yes?("This will create #{writer.cards.size} cards in '#{deck_name}'. Continue?")
+  writer.write_to_anki
 end
 
 puts 'Done.'

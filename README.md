@@ -10,4 +10,6 @@ Purpose: I want a way to convert Exported Kindle Notes into Anki cards so I can 
 - `git clone`
 - `bundle`
 - Rename `config.sample.json -> config.json` and fill it out with your details.
-- `bundle exec ./run.rb --input-file './debt.highlights.example.html' --deck Test`
+- `bundle exec ./run.rb`
+- `bundle exec ./run.rb --input-file '/Users/amirsharif/Dropbox/Book Notes/Drift - Notebook.html'`
+- `bundle exec ./run.rb --directory '/Users/amirsharif/Dropbox/Book Notes/*.html'`

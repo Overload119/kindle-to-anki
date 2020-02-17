@@ -1,3 +1,5 @@
+require 'nokogiri'
+
 class KindleNoteReader
   class UnsupportedFileFormat < StandardError; end
 
